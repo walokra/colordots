@@ -1,0 +1,31 @@
+Name: harbour-colordots
+Summary: Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square.
+Version: 0.1.0
+Release: 1
+Group: Applications/Games
+URL: http://ruleoftech.com/lab/colordots
+License: LICENSE
+Sources:
+- '%{name}-%{version}.tar.bz2'
+Description: |-
+Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone. Similar to Dots game for Android/iOS.
+Configure: none
+Builder: qtc5
+QMakeOptions:
+- VERSION=%{version}
+- RELEASE=%{release}
+PkgConfigBR:
+- sailfishapp
+- Qt5Core
+- Qt5Qml
+- Qt5Quick
+Requires:
+- sailfishsilica-qt5
+Files:
+- '%defattr(0644,root,root,-)'
+- '%attr(0755,root,root) %{_bindir}'
+- '%{_datadir}/%{name}'
+- '%{_datadir}/%{name}/qml'
+- '%{_datadir}/applications/%{name}.desktop'
+- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+PkgBR: []

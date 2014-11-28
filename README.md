@@ -1,0 +1,1 @@
+Link as many dots as you can in thirty moves. Ported from Dotty which is written for Ubuntu Phone by Robert Ancell (https://launchpad.net/dotty). Similar to Dots game for Android/iOS.
