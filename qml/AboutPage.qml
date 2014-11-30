@@ -12,13 +12,12 @@ import Sailfish.Silica 1.0
 
 Page {
     id: aboutPage;
-    allowedOrientations: Orientation.All;
 
     SilicaFlickable {
         id: flickable;
 
         anchors.fill: parent;
-        contentHeight: contentArea.height + 2 * constants.paddingLarge;
+        contentHeight: contentArea.height + 2 * Theme.paddingLarge;
 
         PageHeader {
             id: header;
@@ -30,8 +29,8 @@ Page {
             anchors { top: header.bottom; left: parent.left; right: parent.right }
             height: childrenRect.height;
 
-            anchors.leftMargin: constants.paddingMedium;
-            anchors.rightMargin: constants.paddingMedium;
+            anchors.leftMargin: Theme.paddingMedium;
+            anchors.rightMargin: Theme.paddingMedium;
             spacing: Theme.paddingMedium;
 
             Item {
@@ -42,11 +41,11 @@ Page {
                     id: aboutText;
                     width: parent.width;
                     wrapMode: Text.Wrap;
-                    font.pixelSize: constants.fontSizeMedium;
+                    font.pixelSize: Theme.fontSizeMedium;
                     textFormat: Text.StyledText
                     linkColor: Theme.highlightColor
                     onLinkActivated: Qt.openUrlExternally(link);
-                    text: qsTr("")
+                    text: qsTr("Colordots is a game of connecting. Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone by Robert Ancell. Similar to Dots game for Android/iOS.")
                 }
             }
 
@@ -59,7 +58,7 @@ Page {
                 Label {
                     id: versionText;
                     width: parent.width;
-                    font.pixelSize: constants.fontSizeMedium;
+                    font.pixelSize: Theme.fontSizeMedium;
                     wrapMode: Text.Wrap;
                     text: APP_VERSION + "-" + APP_RELEASE;
                 }
@@ -77,9 +76,9 @@ Page {
                     height: 86;
                 }
                 Label {
-                    anchors { left: rotImage.right; leftMargin: constants.paddingLarge;}
+                    anchors { left: rotImage.right; leftMargin: Theme.paddingLarge;}
                     text: "Marko Wallin, @walokra"
-                    font.pixelSize: constants.fontSizeLarge
+                    font.pixelSize: Theme.fontSizeLarge
                 }
             }
 
@@ -103,9 +102,9 @@ Page {
                     height: 80;
                 }
                 Label {
-                    anchors { left: qtImage.right; leftMargin: constants.paddingLarge; }
+                    anchors { left: qtImage.right; leftMargin: Theme.paddingLarge; }
                     text: "Qt + QML";
-                    font.pixelSize: constants.fontSizeLarge;
+                    font.pixelSize: Theme.fontSizeLarge;
                 }
             }
         }

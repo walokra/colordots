@@ -8,9 +8,9 @@ CONFIG += sailfishapp
 QT += xml
 
 SOURCES += \
-    main.cpp 
-	
-HEADERS += 
+    main.cpp
+
+HEADERS +=
 
 OTHER_FILES = \
     rpm/harbour-colordots.spec \
@@ -20,7 +20,7 @@ OTHER_FILES = \
     qml/MainPage.qml \
     qml/Settings.qml \
     qml/main.qml \
-    qml/AboutPage.qml \ 
+    qml/AboutPage.qml \
     qml/Dot.qml \
     qml/Line.qml \
     qml/storage.js

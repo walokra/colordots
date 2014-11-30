@@ -15,7 +15,6 @@ CoverBackground {
 
     onStatusChanged: {
         if (status === PageStatus.Activating) {
-            console.debug("Activating")
             moves_label.text = main.n_moves
             score_label.text = main.n_cleared
         }
@@ -33,10 +32,7 @@ CoverBackground {
     Item {
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingSmall
-        anchors.rightMargin: Theme.paddingSmall
-        anchors.topMargin: Theme.paddingSmall
-        anchors.bottomMargin: Theme.paddingSmall
+        anchors.margins: Theme.paddingSmall
         width: parent.width
         height: parent.height
 

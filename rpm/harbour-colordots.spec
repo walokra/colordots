@@ -13,13 +13,13 @@ Name:       harbour-colordots
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square.
-Version:    0.1.0
+Version:    0.2.0
 Release:    1
-Group:      Applications/Internet
+Group:      Applications/Games
 License:    LICENSE
 URL:        http://ruleoftech.com/lab/colordots
 Source0:    %{name}-%{version}.tar.bz2
-Source100:  harbour-jollausers.yaml
+Source100:  harbour-colordots.yaml
 Requires:   sailfishsilica-qt5
 BuildRequires:  pkgconfig(sailfishapp)
 BuildRequires:  pkgconfig(Qt5Core)

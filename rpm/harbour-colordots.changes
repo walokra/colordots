@@ -1,2 +1,4 @@
+* Sun Nov 30 2014 Marko Wallin <mtw@iki.fi> 0.2-1
+Add About and Score pages. Store only 5 top scores. Move database stuff to own file.
 * Fri Nov 28 2014 Marko Wallin <mtw@iki.fi> 0.1-1
 Initial working version. Adapted game from Dotty for Ubuntu Phone by Robert Ancell (https://launchpad.net/dotty)

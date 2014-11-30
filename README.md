@@ -1,1 +1,1 @@
-Link as many dots as you can in thirty moves. Ported from Dotty which is written for Ubuntu Phone by Robert Ancell (https://launchpad.net/dotty). Similar to Dots game for Android/iOS.
+Colordots is a game of connecting. Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone by Robert Ancell (https://launchpad.net/dotty). Similar to Dots game for Android/iOS.
