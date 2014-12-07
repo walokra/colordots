@@ -26,8 +26,8 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("About")
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+                text: qsTr("Setting")
+                onClicked: pageStack.push(settingsDialog)
             }
 
             MenuItem {
@@ -36,8 +36,13 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("New game")
-                onClicked: actions.start_game()
+                text: qsTr("60 seconds game")
+                onClicked: { play_mode = "time"; actions.start_game() }
+            }
+
+            MenuItem {
+                text: qsTr("30 moves game")
+                onClicked: { play_mode = "default"; actions.start_game() }
             }
         }
 
@@ -104,6 +109,23 @@ Page {
         }
     }
 
+    property var play_mode: "default"
+    property int time_left: 60
+
+    Timer {
+        id: timer
+        repeat: true
+        interval: 1000
+        onTriggered: {
+            time_left--
+            moves_label.text = time_left
+            if (time_left === 0) {
+                timer.stop()
+                actions.end_game()
+            }
+        }
+    }
+
     Item {
         id: gameArea
         anchors { top: flickable.bottom; left: parent.left; right: parent.right; bottom: parent.bottom; }
@@ -118,19 +140,24 @@ Page {
 
             MouseArea {
                 anchors.fill: parent
-                onPressed: game.select (mouse.x, mouse.y)
-                onPositionChanged: game.move_to (mouse.x, mouse.y)
+                onPressed: game.select(mouse.x, mouse.y)
+                onPositionChanged: game.move_to(mouse.x, mouse.y)
                 onReleased: game.complete()
             }
 
             Component.onCompleted: {
-                game.dot_component = Qt.createComponent("Dot.qml")
+                game.circle_component = Qt.createComponent("Dot.qml")
+                game.rectangle_component = Qt.createComponent("Rectangle.qml")
+                game.diamond_component = Qt.createComponent("Diamond.qml")
+                game.star_component = Qt.createComponent("Star.qml")
+                game.cross_component = Qt.createComponent("Cross.qml")
                 game.line_component = Qt.createComponent("Line.qml")
 
-                game.dots = new Array (6)
+                game.dots = new Array(6)
                 for (var x = 0; x < 6; x++) {
-                    game.dots[x] = new Array (6)
+                    game.dots[x] = new Array(6)
                 }
+
                 actions.start_game()
                 game.layout()
             }
@@ -191,23 +218,28 @@ Page {
         property var selected_dots: []
         property var lines: []
         property var line_component
-        property var dot_component
+        property var circle_component
+        property var rectangle_component
+        property var diamond_component
+        property var star_component
+        property var cross_component
         property var spacing: 120
         property var dot_radius: 30
         property var line_width: 15
+        property var color
 
         function fill() {
             // Add in new dots
             var new_dots = []
             for (var y = dots[1].length - 1; y >= 0; y--) {
                 for (var x = 0; x < dots.length; x++) {
-                    if (dots[x][y] != undefined)
+                    if (dots[x][y] !== undefined)
                         continue
 
                     // Drop down dot from above
                     var above_dot = undefined
                     for (var yy = y - 1; yy >= 0; yy--) {
-                        if (dots[x][yy] != undefined) {
+                        if (dots[x][yy] !== undefined) {
                             above_dot = dots[x][yy]
                             dots[x][yy] = undefined
                             break
@@ -216,15 +248,33 @@ Page {
 
                     // If nothing above, create a new one
                     if (above_dot == undefined) {
-                        above_dot = dot_component.createObject (table)
+                        color = get_random_color()
+                        if (use_shapes) {
+                            if (color === colors[0]) {
+                                above_dot = circle_component.createObject(table)
+                            } else if (color === colors[1]) {
+                                above_dot = rectangle_component.createObject(table)
+                            } else if (color === colors[2]) {
+                                above_dot = diamond_component.createObject(table)
+                            } else if (color === colors[3]) {
+                                above_dot = star_component.createObject(table)
+                            } else if (color === colors[4]) {
+                                above_dot = cross_component.createObject(table)
+                            } else {
+                                above_dot = circle_component.createObject(table)
+                            }
+                        } else {
+                            above_dot = circle_component.createObject(table)
+                        }
+
                         new_dots[new_dots.length] = above_dot
-                        above_dot.color = get_random_color()
+                        above_dot.color = color
                     }
 
                     // Move dot down into empty space
                     above_dot.x_coord = x
                     above_dot.y_coord = y
-                    place_dot (above_dot)
+                    place_dot(above_dot)
                     dots[x][y] = above_dot
                 }
             }
@@ -232,34 +282,32 @@ Page {
             // If no there are no possible dots to link then make one of the new
             // dots match an adjacent one
             if (!can_link()) {
-                var new_dot = new_dots[Math.floor (Math.random() * new_dots.length)]
-                if (new_dot.y_coord == 0)
+                var new_dot = new_dots[Math.floor(Math.random() * new_dots.length)]
+                if (new_dot.y_coord === 0)
                     new_dot.color = dots[new_dot.x_coord][new_dot.y_coord + 1].color
                 else
                     new_dot.color = dots[new_dot.x_coord][new_dot.y_coord - 1].color
             }
         }
 
-        function can_link()
-        {
+        function can_link() {
             for (var x = 0; x < dots.length; x++)
                 for (var y = 0; y < dots[0].length; y++) {
                     var c = dots[x][y].color
-                    if (x > 0 && dots[x-1][y].color == c)
+                    if (x > 0 && dots[x-1][y].color === c)
                         return true
-                    if (x + 1 < dots.length && dots[x+1][y].color == c)
+                    if (x + 1 < dots.length && dots[x+1][y].color === c)
                         return true
-                    if (y > 0 && dots[x][y-1].color == c)
+                    if (y > 0 && dots[x][y-1].color === c)
                         return true
-                    if (y + 1 < dots[0].length && dots[x][y+1].color == c)
+                    if (y + 1 < dots[0].length && dots[x][y+1].color === c)
                         return true
                 }
 
             return false
         }
 
-        function clear_selection()
-        {
+        function clear_selection() {
             for (var i = 0; i < lines.length; i++)
                 lines[i].destroy()
             lines = []
@@ -267,16 +315,16 @@ Page {
         }
 
         function get_random_color() {
-            return colors[Math.floor (Math.random() * colors.length)]
+            return colors[Math.floor(Math.random() * colors.length)]
         }
 
-        function get_nearest (x, y) {
+        function get_nearest(x, y) {
             var nearest
             var d = -1
             for (var dx = 0; dx < dots.length; dx++) {
                 for (var dy = 0; dy < dots[dx].length; dy++) {
                     var dot = dots[dx][dy]
-                    var dd = Math.pow (x - dot.cx, 2) + Math.pow (y - dot.cy, 2)
+                    var dd = Math.pow(x - dot.cx, 2) + Math.pow(y - dot.cy, 2)
                     if (dd < d || d < 0) {
                         d = dd
                         nearest = dot
@@ -286,40 +334,44 @@ Page {
             return nearest
         }
 
-        function select (x, y) {
-            if (n_moves === 0)
+        function select(x, y) {
+            if (play_mode === "default" && n_moves === 0) {
                 return
+            }
+            if (play_mode === "time" && time_left === 0) {
+                return
+            }
 
-            var line = line_component.createObject (table)
-            var dot = get_nearest (x, y)
+            var line = line_component.createObject(table)
+            var dot = get_nearest(x, y)
             line.x1 = dot.cx
             line.y1 = dot.cy
             line.x2 = line.x1
             line.y2 = line.y1
             line.color = dot.color
             line.height = line_width
-            selected_dots.push (dot)
-            lines.push (line)
+            selected_dots.push(dot)
+            lines.push(line)
         }
 
         function layout() {
-            if (dots == undefined)
+            if (dots === undefined)
                 return
 
-            var size = Math.min (width, height)
+            var size = Math.min(width, height)
             spacing = size / dots.length
             dot_radius = spacing / 4
-            line_width = Math.round (dot_radius / 2)
+            line_width = Math.round(dot_radius / 2)
             result_box.width = dot_radius * 10
 
             for (var x = 0; x < dots.length; x++)
                 for (var y = 0; y < dots[0].length; y++)
-                    place_dot (dots[x][y])
+                    place_dot(dots[x][y])
             for (var i = 0; i < lines.length; line++)
                 lines[i].width = line_width
         }
 
-        function place_dot (dot) {
+        function place_dot(dot) {
             var x_offset = (width - (dots.length - 1) * spacing) / 2
             var y_offset = (height - (dots[0].length - 1) * spacing) / 2
             dot.cx = x_offset + dot.x_coord * spacing
@@ -327,7 +379,7 @@ Page {
             dot.width = dot_radius * 2
         }
 
-        function move_to (x, y) {
+        function move_to(x, y) {
             if (selected_dots.length == 0)
                 return
 
@@ -335,8 +387,8 @@ Page {
             var line = lines[lines.length - 1]
 
             // Get the dot we are nearest to
-            var nearest = get_nearest (x, y)
-            var d = Math.pow (last_dot.x_coord - nearest.x_coord, 2) + Math.pow (last_dot.y_coord - nearest.y_coord, 2)
+            var nearest = get_nearest(x, y)
+            var d = Math.pow(last_dot.x_coord - nearest.x_coord, 2) + Math.pow(last_dot.y_coord - nearest.y_coord, 2)
 
             // If go back to previous dot then unselect
             if (selected_dots.length > 1 && nearest === selected_dots[selected_dots.length - 2]) {
@@ -361,14 +413,14 @@ Page {
                 line.y2 = nearest.cy
 
                 // Create a new line
-                line = line_component.createObject (table)
+                line = line_component.createObject(table)
                 line.x1 = nearest.cx
                 line.y1 = nearest.cy
                 line.color = last_dot.color
                 line.height = line_width
 
-                selected_dots.push (nearest)
-                lines.push (line)
+                selected_dots.push(nearest)
+                lines.push(line)
             }
 
             line.x2 = x
@@ -399,8 +451,9 @@ Page {
         }
 
         function complete_loop() {
-            if (selected_dots.length < 2)
+            if (selected_dots.length < 2) {
                 return
+            }
 
             n_moves--
 
@@ -408,7 +461,7 @@ Page {
             var dot = selected_dots[0]
             for (var x = 0; x < dots.length; x++) {
                 for (var y = 0; y < dots[0].length; y++) {
-                    if (dots[x][y].color == dot.color) {
+                    if (dots[x][y].color === dot.color) {
                         dots[x][y].destroy()
                         dots[x][y] = undefined
                         n_cleared++
@@ -424,8 +477,9 @@ Page {
         }
 
         function move_complete() {
-            if (n_moves == 0)
+            if (play_mode === "default" && n_moves == 0) {
                 actions.end_game()
+            }
         }
     }
 
@@ -433,6 +487,21 @@ Page {
         id: actions;
 
         function start_game() {
+            timer.stop()
+
+            if (play_mode === "time") {
+                moves_desc_label.text = qsTr("Seconds left")
+                timer.start()
+            } else {
+                moves_desc_label.text = qsTr("Moves left")
+            }
+
+            time_left = 60
+            n_moves = 30
+            init_game()
+        }
+
+        function init_game() {
             // Hide UI
             result_box.scale = 0
             score_history_label.opacity = 0
@@ -453,7 +522,6 @@ Page {
 
             // Start new game
             game.fill()
-            n_moves = 30
             n_cleared = 0
             update_labels()
         }
@@ -479,16 +547,21 @@ Page {
             result_box.scale = 1
             score_history_label.opacity = 1
 
-            get_scores();
+            get_scores(play_mode);
         }
 
         function update_labels() {
-            moves_label.text = n_moves
+            if (play_mode === "default") {
+                moves_label.text = n_moves
+            } else {
+                moves_label.text = time_left
+            }
+
             score_label.text = n_cleared
         }
 
         function update_scores(n_cleared) {
-            Storage.update_scores(n_cleared,
+            Storage.update_scores(n_cleared, play_mode,
                                   function(scores) {
                                       score_history_label.text = scores;
                                   }
@@ -496,7 +569,7 @@ Page {
         }
 
         function get_scores() {
-            score_history_label.text = Storage.get_scores();
+            score_history_label.text = Storage.get_scores(play_mode);
         }
     }
 

@@ -16,6 +16,8 @@ ApplicationWindow {
     property int n_moves: 30
     property int n_cleared: 0
 
+    property bool use_shapes: false;
+
     cover: coverPage;
 
     initialPage: Component {
@@ -27,5 +29,7 @@ ApplicationWindow {
     }
 
     CoverPage { id: coverPage }
+
+    SettingsDialog { id: settingsDialog }
 
 }

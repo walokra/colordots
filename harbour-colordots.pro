@@ -23,6 +23,11 @@ OTHER_FILES = \
     qml/AboutPage.qml \
     qml/Dot.qml \
     qml/Line.qml \
-    qml/storage.js
+    qml/storage.js \
+    qml/Rectangle.qml \
+    qml/Diamond.qml \
+    qml/SettingsDialog.qml \
+    qml/Star.qml \
+    qml/Cross.qml
 
 INCLUDEPATH += $$PWD

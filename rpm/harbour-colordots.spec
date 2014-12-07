@@ -13,7 +13,7 @@ Name:       harbour-colordots
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square.
-Version:    0.2.0
+Version:    0.3.0
 Release:    1
 Group:      Applications/Games
 License:    LICENSE
