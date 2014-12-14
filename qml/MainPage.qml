@@ -109,9 +109,6 @@ Page {
         }
     }
 
-    property var play_mode: "default"
-    property int time_left: 60
-
     Timer {
         id: timer
         repeat: true

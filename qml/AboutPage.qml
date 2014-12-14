@@ -45,7 +45,7 @@ Page {
                     textFormat: Text.StyledText
                     linkColor: Theme.highlightColor
                     onLinkActivated: Qt.openUrlExternally(link);
-                    text: qsTr("Colordots is a game of connecting. Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone by Robert Ancell. Similar to Dots game for Android/iOS.")
+                    text: qsTr("Colordots is a game of connecting. Link as many dots as you can in thirty moves or 60 seconds. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone by Robert Ancell. Similar to Dots game for Android/iOS.")
                 }
             }
 

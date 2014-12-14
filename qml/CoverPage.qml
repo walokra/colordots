@@ -15,8 +15,13 @@ CoverBackground {
 
     onStatusChanged: {
         if (status === PageStatus.Activating) {
+            if (play_mode === "default") {
             moves_label.text = main.n_moves
             score_label.text = main.n_cleared
+            } else {
+                moves_label.text = main.time_left
+                score_label.text = main.n_cleared
+            }
         }
     }
 

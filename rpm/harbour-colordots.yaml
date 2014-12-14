@@ -1,5 +1,5 @@
 Name: harbour-colordots
-Summary: Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square.
+Summary: Link as many dots as you can in thirty moves or 60 seconds. Connect one dot to another, connect four dots to make a square.
 Version: 0.3.0
 Release: 1
 Group: Applications/Games
@@ -8,7 +8,7 @@ License: LICENSE
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |-
- Link as many dots as you can in thirty moves. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone. Similar to Dots game for Android/iOS.
+ Link as many dots as you can in thirty moves or 60 seconds. Connect one dot to another, connect four dots to make a square. Ported from Dotty which is written for Ubuntu Phone. Similar to Dots game for Android/iOS.
 Configure: none
 Builder: qtc5
 QMakeOptions:

@@ -15,6 +15,8 @@ ApplicationWindow {
 
     property int n_moves: 30
     property int n_cleared: 0
+    property var play_mode: "default"
+    property int time_left: 60
 
     property bool use_shapes: false;
 
