@@ -95,7 +95,7 @@ function writeSetting(key, value) {
     }
 
     db.transaction(function(tx) {
-        tx.executeSql("INSERT OR REPLACE INTO settings VALUES (?, ?);", [key, value]);
+        tx.executeSql("INSERT OR REPLACE INTO Settings VALUES (?, ?);", [key, value]);
         tx.executeSql("COMMIT;");
     });
 
@@ -109,7 +109,7 @@ function readSetting(key) {
 
     var res = "";
     db.readTransaction(function(tx) {
-        var rows = tx.executeSql("SELECT value AS val FROM settings WHERE key=?;", [key]);
+        var rows = tx.executeSql("SELECT value AS val FROM Settings WHERE key=?;", [key]);
 
         if (rows.rows.length !== 1) {
             res = "";
