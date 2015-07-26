@@ -279,11 +279,15 @@ Page {
             // If no there are no possible dots to link then make one of the new
             // dots match an adjacent one
             if (!can_link()) {
-                var new_dot = new_dots[Math.floor(Math.random() * new_dots.length)]
-                if (new_dot.y_coord === 0)
-                    new_dot.color = dots[new_dot.x_coord][new_dot.y_coord + 1].color
-                else
-                    new_dot.color = dots[new_dot.x_coord][new_dot.y_coord - 1].color
+//                var new_dot = new_dots[Math.floor(Math.random() * new_dots.length)]
+//                if (new_dot.y_coord === 0) {
+//                    new_dot.color = dots[new_dot.x_coord][new_dot.y_coord + 1].color
+//                } else {
+//                    new_dot.color = dots[new_dot.x_coord][new_dot.y_coord - 1].color
+//                }
+                // If there's no dots to link, regenerate the field
+                clear_field()
+                fill()
             }
         }
 
@@ -309,6 +313,17 @@ Page {
                 lines[i].destroy()
             lines = []
             selected_dots = []
+        }
+
+        function clear_field() {
+            for (var x = 0; x < game.dots.length; x++) {
+                for (var y = 0; y < game.dots[0].length; y++) {
+                    if (game.dots[x][y] !== undefined) {
+                        game.dots[x][y].destroy()
+                        game.dots[x][y] = undefined
+                    }
+                }
+            }
         }
 
         function get_random_color() {
@@ -508,14 +523,7 @@ Page {
 
             // Clear existing dots
             game.clear_selection()
-            for (var x = 0; x < game.dots.length; x++) {
-                for (var y = 0; y < game.dots[0].length; y++) {
-                    if (game.dots[x][y] !== undefined) {
-                        game.dots[x][y].destroy()
-                        game.dots[x][y] = undefined
-                    }
-                }
-            }
+            game.clear_field()
 
             // Start new game
             game.fill()
