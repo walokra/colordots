@@ -26,11 +26,10 @@ CoverBackground {
     }
 
     Image {
-        anchors.left: parent.left
-        anchors.leftMargin: Theme.paddingLarge
+	anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         source: "images/colordots-overlay.svg"
-        opacity: 0.2
+        opacity: 0.4
     }
 
 
@@ -53,6 +52,7 @@ CoverBackground {
             height: parent.circle_size
             radius: width / 2
             color: "#ad7fa8"
+	    opacity: 0.7
             Label {
                 id: moves_label
                 anchors.fill: parent
@@ -72,6 +72,7 @@ CoverBackground {
             height: parent.circle_size
             radius: width / 2
             color: "#ad7fa8"
+	    opacity: 0.7
             Label {
                 id: score_label
                 anchors.fill: parent
@@ -81,6 +82,14 @@ CoverBackground {
                 color: "white"
             }
         }
+
+	Label {
+	    anchors.horizontalCenter: parent.horizontalCenter
+	    anchors.top: moves_circle.bottom
+	    anchors.topMargin: 20
+	    text: "Colordots"
+	    font.bold: true
+	}
     }
 
 }
