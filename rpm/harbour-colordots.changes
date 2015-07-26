@@ -1,3 +1,5 @@
+* Sun Jul 26 2015 Marko Wallin <mtw@iki.fi> 0.4-1
+Fix wrong shape if no moves possible. Fix race condition in 60s mode.
 * Sun Dec 14 2014 Marko Wallin <mtw@iki.fi> 0.3-1
 New game mode: 60 seconds.
 Setting for using both shapes and color.
