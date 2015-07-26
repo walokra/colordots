@@ -14,6 +14,8 @@ import "storage.js" as Storage
 Page {
     id: root
 
+    allowedOrientations: Orientation.Portrait
+
     SilicaFlickable {
         id: flickable
         z: 1
@@ -139,7 +141,11 @@ Page {
                 anchors.fill: parent
                 onPressed: game.select(mouse.x, mouse.y)
                 onPositionChanged: game.move_to(mouse.x, mouse.y)
-                onReleased: game.complete()
+                onReleased: {
+                    if (play_mode !== "time" || time_left !== 0) {
+                        game.complete()
+                    }
+                }
             }
 
             Component.onCompleted: {
@@ -220,9 +226,9 @@ Page {
         property var diamond_component
         property var star_component
         property var cross_component
-        property var spacing: 120
-        property var dot_radius: 30
-        property var line_width: 15
+        property int spacing: 120
+        property int dot_radius: 30
+        property int line_width: 15
         property var color
 
         function fill() {
@@ -367,8 +373,9 @@ Page {
         }
 
         function layout() {
-            if (dots === undefined)
+            if (dots === undefined) {
                 return
+            }
 
             var size = Math.min(width, height)
             spacing = size / dots.length
@@ -392,8 +399,9 @@ Page {
         }
 
         function move_to(x, y) {
-            if (selected_dots.length == 0)
+            if (selected_dots.length === 0) {
                 return
+            }
 
             var last_dot = selected_dots[selected_dots.length - 1]
             var line = lines[lines.length - 1]
@@ -410,11 +418,10 @@ Page {
                 line = lines[lines.length - 1]
             }
             // If go to new dot beside this one then extend line
-            else if (nearest != last_dot && nearest.color == last_dot.color && d == 1) {
+            else if (nearest !== last_dot && nearest.color === last_dot.color && d == 1) {
                 // If already had this dot selected, then made a loop!
-                for (var i = 0; i < selected_dots.length; i++)
-                {
-                    if (selected_dots[i] == nearest) {
+                for (var i = 0; i < selected_dots.length; i++) {
+                    if (selected_dots[i] === nearest) {
                         complete_loop()
                         return
                     }
