@@ -5,7 +5,6 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 DEFINES += APP_RELEASE=\\\"$$RELEASE\\\"
 
 CONFIG += sailfishapp
-QT += xml
 
 SOURCES += \
     main.cpp
