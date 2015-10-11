@@ -12,10 +12,10 @@ Name:       harbour-colordots
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
-Summary:    Link as many dots as you can in thirty moves or 60 seconds. Connect one dot to another, connect four dots to make a square.
+Summary:    Link as many dots as you can in 30 moves or 60 seconds. Four dots for a square
 Version:    0.4.0
 Release:    1
-Group:      Applications/Games
+Group:      Amusements/Games
 License:    LICENSE
 URL:        http://ruleoftech.com/lab/colordots
 Source0:    %{name}-%{version}.tar.bz2
