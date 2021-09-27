@@ -4,7 +4,7 @@ Version: 0.4.0
 Release: 1
 Group: Amusements/Games
 URL: http://ruleoftech.com/lab/colordots
-License: LICENSE
+License: GPLv3
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |-

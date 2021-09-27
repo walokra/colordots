@@ -16,7 +16,7 @@ Summary:    Link as many dots as you can in 30 moves or 60 seconds. Four dots fo
 Version:    0.4.0
 Release:    1
 Group:      Amusements/Games
-License:    LICENSE
+License:    GPLv3
 URL:        http://ruleoftech.com/lab/colordots
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-colordots.yaml
